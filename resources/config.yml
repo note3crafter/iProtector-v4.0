@@ -9,7 +9,7 @@ Messages:
  Place: 'You do not have permission to place your {block}!'
  
  # No permission to break that block
- Break: 'You do not have permission to break my {block}!
+ Break: 'You do not have permission to break my {block}!'
  
  # No permission to touch that block or activate things like chests
  Touch: 'You do not have permission to touch my {block}!'
