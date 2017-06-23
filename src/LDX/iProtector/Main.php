@@ -17,11 +17,12 @@ use pocketmine\event\block\BlockBreakEvent;
 
 class Main extends PluginBase implements Listener {
   
+  const PREFIX = TextFormat::GREEN . "[" . TextFormat::YELLOW . $this->getDescription()->getFullName() . ":kenygamer" . TextFormat::GREEN . "]" . TextFormat::RESET;
   public $c;
 
   public function onEnable() {
     $this->getServer()->getPluginManager()->registerEvents($this,$this);
-    $this->getLogger()->info("§aEnabling " . $this->getDescription()->getFullName() . "...");
+    $this->getLogger()->info(TextFormat::GREEN . "Enabling " . $this->getDescription()->getFullName() . "...");
     if(!is_dir($this->getDataFolder())) {
       mkdir($this->getDataFolder());
     }
@@ -59,12 +60,12 @@ class Main extends PluginBase implements Listener {
   }
   
   public function onDisable() {
-    $this->getLogger()->info("§cDisabling " . $this->getDescription()->getFullName() . "...");
+    $this->getLogger()->info(TextFormat::RED . "Disabling " . $this->getDescription()->getFullName() . "...");
   }
 
   public function onCommand(CommandSender $p,Command $cmd,$label,array $args) {
     if(!($p instanceof Player)) {
-      $p->sendMessage(TextFormat::RED . "Command must be used in-game.");
+      $p->sendMessage(self::PREFIX . TextFormat::RED . "Command must be used in-game.");
       return true;
     }
     if(!isset($args[0])) {
@@ -76,25 +77,25 @@ class Main extends PluginBase implements Listener {
       case "pos1":
         if($p->hasPermission("iprotector") || $p->hasPermission("iprotector.command") || $p->hasPermission("iprotector.command.area") || $p->hasPermission("iprotector.command.area.pos1")) {
           if(isset($this->sel1[$n]) || isset($this->sel2[$n])) {
-            $o = "You're already selecting a position!";
+            $o = self::PREFIX . TextFormat::RED . "You're already selecting a position!";
           } else {
             $this->sel1[$n] = true;
-            $o = "Please place or break the first position.";
+            $o = self::PREFIX . TextFormat::RED . "Please place or break the first position.";
           }
         } else {
-          $o = "You do not have permission to use this subcommand.";
+          $o = self::PREFIX . TextFormat::RED . "You do not have permission to use this subcommand.";
         }
       break;
       case "pos2":
         if($p->hasPermission("iprotector") || $p->hasPermission("iprotector.command") || $p->hasPermission("iprotector.command.area") || $p->hasPermission("iprotector.command.area.pos2")) {
           if(isset($this->sel1[$n]) || isset($this->sel2[$n])) {
-            $o = "You're already selecting a position!";
+            $o = self::PREFIX . TextFormat::RED . "You're already selecting a position!";
           } else {
             $this->sel2[$n] = true;
-            $o = "Please place or break the second position.";
+            $o = self::PREFIX . TextFormat::RED . "Please place or break the second position.";
           }
         } else {
-          $o = "You do not have permission to use this subcommand.";
+          $o = self::PREFIX . TextFormat::RED . "You do not have permission to use this subcommand.";
         }
       break;
       case "create":
@@ -106,18 +107,18 @@ class Main extends PluginBase implements Listener {
                 $this->saveAreas();
                 unset($this->pos1[$n]);
                 unset($this->pos2[$n]);
-                $o = "Area created!";
+                $o = self::PREFIX . TextFormat::GREEN . "Area created!";
               } else {
-                $o = "An area with that name already exists.";
+                $o = self::PREFIX . TextFormat::RED . "An area with that name already exists.";
               }
             } else {
-              $o = "Please select both positions first.";
+              $o = self::PREFIX . TextFormat::RED . "Please select both positions first.";
             }
           } else {
-            $o = "Please specify a name for this area.";
+            $o = self::PREFIX . TextFormat::RED . "Please specify a name for this area.";
           }
         } else {
-          $o = "You do not have permission to use this subcommand.";
+          $o = self::PREFIX . TextFormat::RED . "You do not have permission to use this subcommand.";
         }
       break;
       case "list":
@@ -152,21 +153,21 @@ class Main extends PluginBase implements Listener {
                   } else {
                     $status = "off";
                   }
-                  $o = "Flag " . $flag . " set to " . $status . " for area " . $area->getName() . "!";
+                  $o = self::PREFIX . TextFormat::GREEN . "Flag " . $flag . " set to " . $status . " for area " . $area->getName() . "!";
                 } else {
-                  $o = "Flag not found. (Flags: edit, god, touch)";
+                  $o = self::PREFIX . TextFormat::RED . "Flag not found. (Flags: edit, god, tnt, touch)";
                 }
               } else {
-                $o = "Please specify a flag. (Flags: edit, god, touch)";
+                $o = self::PREFIX . TextFormat::RED . "Please specify a flag. (Flags: edit, god, touch)";
               }
             } else {
-              $o = "Area doesn't exist.";
+              $o = self::PREFIX . TextFormat::RED . "Area doesn't exist.";
             }
           } else {
-            $o = "Please specify the area you would like to flag.";
+            $o = self::PREFIX . TextFormat::RED . "Please specify the area you would like to flag.";
           }
         } else {
-          $o = "You do not have permission to use this subcommand.";
+          $o = self::PREFIX . TextFormat::RED . "You do not have permission to use this subcommand.";
         }
       break;
       case "delete":
@@ -175,15 +176,15 @@ class Main extends PluginBase implements Listener {
             if(isset($this->areas[strtolower($args[1])])) {
               $area = $this->areas[strtolower($args[1])];
               $area->delete();
-              $o = "Area deleted!";
+              $o = self::PREFIX . TextFormat::GREEN . "Area deleted!";
             } else {
-              $o = "Area does not exist.";
+              $o = self::PREFIX . TextFormat::RED . "Area does not exist.";
             }
           } else {
-            $o = "Please specify an area to delete.";
+            $o = self::PREFIX . TextFormat::RED . "Please specify an area to delete.";
           }
         } else {
-          $o = "You do not have permission to use this subcommand.";
+          $o = self::PREFIX . TextFormat::RED . "You do not have permission to use this subcommand.";
         }
       break;
       case "whitelist":
@@ -197,13 +198,13 @@ class Main extends PluginBase implements Listener {
                   $w = ($this->getServer()->getPlayer($args[3]) instanceof Player ? strtolower($this->getServer()->getPlayer($args[3])->getName()) : strtolower($args[3]));
                   if(!$area->isWhitelisted($w)) {
                     $area->setWhitelisted($w);
-                    $o = "Player $w has been whitelisted in area " . $area->getName() . ".";
+                    $o = self::PREFIX . TextFormat::GREEN . "Player $w has been whitelisted in area " . $area->getName() . ".";
                   } else {
-                    $o = "Player $w is already whitelisted in area " . $area->getName() . ".";
+                    $o = self::PREFIX . TextFormat::RED . "Player $w is already whitelisted in area " . $area->getName() . ".";
                   }
                 break;
                 case "list":
-                  $o = "Area " . $area->getName() . "'s whitelist:";
+                  $o = self::PREFIX . TextFormat::AQUA . $area->getName() . "'s whitelist:";
                   foreach($area->getWhitelist() as $w) {
                     $o .= " $w;";
                   }
@@ -213,23 +214,23 @@ class Main extends PluginBase implements Listener {
                   $w = ($this->getServer()->getPlayer($args[3]) instanceof Player ? strtolower($this->getServer()->getPlayer($args[3])->getName()) : strtolower($args[3]));
                   if($area->isWhitelisted($w)) {
                     $area->setWhitelisted($w,false);
-                    $o = "Player $w has been unwhitelisted in area " . $area->getName() . ".";
+                    $o = self::PREFIX . TextFormat::GREEN . "Player $w has been unwhitelisted in area " . $area->getName() . ".";
                   } else {
-                    $o = "Player $w is already unwhitelisted in area " . $area->getName() . ".";
+                    $o = self::PREFIX . TextFormat::RED . "$w is already unwhitelisted in area " . $area->getName() . ".";
                   }
                 break;
                 default:
-                  $o = "Please specify a valid action. Usage: /area whitelist " . $area->getName() . " <add/list/remove> [player]";
+                  $o = self::PREFIX . TextFormat::RED . "Please specify a valid action. Usage: /area whitelist " . $area->getName() . " <add/list/remove> [player]";
                 break;
               }
             } else {
-              $o = "Please specify an action. Usage: /area whitelist " . $area->getName() . " <add/list/remove> [player]";
+              $o = self::PREFIX . TextFormat::RED . "Please specify an action. Usage: /area whitelist " . $area->getName() . " <add/list/remove> [player]";
             }
           } else {
-            $o = "Area doesn't exist. Usage: /area whitelist <area> <add/list/remove> [player]";
+            $o = self::PREFIX . TextFormat::RED . "Area doesn't exist. Usage: /area whitelist <area> <add/list/remove> [player]";
           }
         } else {
-          $o = "You do not have permission to use this subcommand.";
+          $o = self::PREFIX . TextFormat::RED . "You do not have permission to use this subcommand.";
         }
       break;
       default:
@@ -260,12 +261,12 @@ class Main extends PluginBase implements Listener {
     if(isset($this->sel1[$n])) {
       unset($this->sel1[$n]);
       $this->pos1[$n] = new Vector3($b->getX(),$b->getY(),$b->getZ());
-      $p->sendMessage("Position 1 set to: (" . $this->pos1[$n]->getX() . ", " . $this->pos1[$n]->getY() . ", " . $this->pos1[$n]->getZ() . ")");
+      $p->sendMessage(self::PREFIX . TextFormat::GREEN . "Position 1 set to: (" . $this->pos1[$n]->getX() . ", " . $this->pos1[$n]->getY() . ", " . $this->pos1[$n]->getZ() . ")");
       $event->setCancelled();
     } else if(isset($this->sel2[$n])) {
       unset($this->sel2[$n]);
       $this->pos2[$n] = new Vector3($b->getX(),$b->getY(),$b->getZ());
-      $p->sendMessage("Position 2 set to: (" . $this->pos2[$n]->getX() . ", " . $this->pos2[$n]->getY() . ", " . $this->pos2[$n]->getZ() . ")");
+      $p->sendMessage(self::PREFIX . TextFormat::GREEN . "Position 2 set to: (" . $this->pos2[$n]->getX() . ", " . $this->pos2[$n]->getY() . ", " . $this->pos2[$n]->getZ() . ")");
       $event->setCancelled();
     } else {
       if(!$this->canEdit($p,$b)) {
@@ -284,12 +285,12 @@ class Main extends PluginBase implements Listener {
     if(isset($this->sel1[$n])) {
       unset($this->sel1[$n]);
       $this->pos1[$n] = new Vector3($b->getX(),$b->getY(),$b->getZ());
-      $p->sendMessage("Position 1 set to: (" . $this->pos1[$n]->getX() . ", " . $this->pos1[$n]->getY() . ", " . $this->pos1[$n]->getZ() . ")");
+      $p->sendMessage(self::PREFIX . TextFormat::GREEN . "Position 1 set to: (" . $this->pos1[$n]->getX() . ", " . $this->pos1[$n]->getY() . ", " . $this->pos1[$n]->getZ() . ")");
       $event->setCancelled();
     } else if(isset($this->sel2[$n])) {
       unset($this->sel2[$n]);
       $this->pos2[$n] = new Vector3($b->getX(),$b->getY(),$b->getZ());
-      $p->sendMessage("Position 2 set to: (" . $this->pos2[$n]->getX() . ", " . $this->pos2[$n]->getY() . ", " . $this->pos2[$n]->getZ() . ")");
+      $p->sendMessage(self::PREFIX . TextFormat::GREEN . "Position 2 set to: (" . $this->pos2[$n]->getX() . ", " . $this->pos2[$n]->getY() . ", " . $this->pos2[$n]->getZ() . ")");
       $event->setCancelled();
     } else {
       if(!$this->canEdit($p,$b)) {
@@ -317,7 +318,6 @@ class Main extends PluginBase implements Listener {
     foreach($this->areas as $area) {
       $areas[] = array("name" => $area->getName(),"flags" => $area->getFlags(),"pos1" => $area->getPos1(),"pos2" => $area->getPos2(),"level" => $area->getLevel(),"whitelist" => $area->getWhitelist());
     }
-     /* JSON_PRETTY_PRINT setting added */
     if($c["Settings"]["JPP"] === true) {
       file_put_contents($this->getDataFolder() . "areas.json",json_encode($areas, JSON_PRETTY_PRINT));
       return;
