@@ -312,6 +312,7 @@ class Main extends PluginBase implements Listener {
        if($event->getBlock() === \pocketmine\block\Block::get(46, 0)) {
         if(!$this->canExplode($p->getX(), $p->getY(), $p->getZ(), $p->getLevel())) {
           $event->setCancelled();
+          return;
         }
        }
       }
