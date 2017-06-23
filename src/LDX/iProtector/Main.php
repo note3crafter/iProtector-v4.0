@@ -21,6 +21,7 @@ class Main extends PluginBase implements Listener {
 
   public function onEnable() {
     $this->getServer()->getPluginManager()->registerEvents($this,$this);
+    $this->getLogger()->info("§aEnabling " . $this->getDescription()->getFullName() . "...");
     if(!is_dir($this->getDataFolder())) {
       mkdir($this->getDataFolder());
     }
@@ -39,6 +40,13 @@ class Main extends PluginBase implements Listener {
       $area = new Area($datum["name"],$datum["flags"],$datum["pos1"],$datum["pos2"],$datum["level"],$datum["whitelist"],$this);
     }
     $c = yaml_parse(file_get_contents($this->getDataFolder() . "config.yml"));
+    if($c["Settings"]["Enable"] === false) {
+      $this->getPluginLoader()->disablePlugin($this);
+      return true;
+    } elseif($c["Settings"]["Enable"] !== true) {
+      $this->getPluginLoader()->disablePlugin($this);
+      return true;
+    } else {
     $this->god = $c["Default"]["God"];
     $this->edit = $c["Default"]["Edit"];
     $this->touch = $c["Default"]["Touch"];
@@ -46,6 +54,12 @@ class Main extends PluginBase implements Listener {
     foreach($c["Worlds"] as $level => $flags) {
       $this->levels[$level] = $flags;
     }
+      return true;
+    }
+  }
+  
+  public function onDisable() {
+    $this->getLogger()->info("§cDisabling " . $this->getDescription()->getFullName() . "...");
   }
 
   public function onCommand(CommandSender $p,Command $cmd,$label,array $args) {
