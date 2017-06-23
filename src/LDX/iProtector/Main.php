@@ -303,8 +303,17 @@ class Main extends PluginBase implements Listener {
     foreach($this->areas as $area) {
       $areas[] = array("name" => $area->getName(),"flags" => $area->getFlags(),"pos1" => $area->getPos1(),"pos2" => $area->getPos2(),"level" => $area->getLevel(),"whitelist" => $area->getWhitelist());
     }
-     /* JSON_PRETTY_PRINT parameter added */
-    file_put_contents($this->getDataFolder() . "areas.json",json_encode($areas, JSON_PRETTY_PRINT));
+     /* JSON_PRETTY_PRINT setting added */
+    if($c["Settings"]["JPP"] === true) {
+      file_put_contents($this->getDataFolder() . "areas.json",json_encode($areas, JSON_PRETTY_PRINT));
+      return;
+    } elseif($c["Settings"]["JPP"] === false) {
+    file_put_contents($this->getDataFolder() . "areas.json",json_encode($areas));
+      return;
+    } else {
+      file_put_contents($this->getDataFolder() . "areas.json",json_encode($areas));
+      return;
+    }
   }
 
   public function canEdit($p,$t) {
