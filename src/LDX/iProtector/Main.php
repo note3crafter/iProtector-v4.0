@@ -16,6 +16,8 @@ use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\block\BlockBreakEvent;
 
 class Main extends PluginBase implements Listener {
+  
+  public $c;
 
   public function onEnable() {
     $this->getServer()->getPluginManager()->registerEvents($this,$this);
@@ -229,6 +231,9 @@ class Main extends PluginBase implements Listener {
       $p = $event->getEntity();
       $x = false;
       if(!$this->canGetHurt($p)) {
+        if($c["Messages"]["Hurt"]["Enable"] === true) {
+          $p->sendMessage(str_replace('{player}', $p->getName(), $c["Messages"]["Hurt"]["Message"]));
+        }
         $event->setCancelled();
       }
     }
@@ -250,6 +255,9 @@ class Main extends PluginBase implements Listener {
       $event->setCancelled();
     } else {
       if(!$this->canEdit($p,$b)) {
+        if($c["Messages"]["Break"]["Enable"] === true) {
+          $p->sendMessage(str_replace('{block}', $b->getName(), $c["Messages"]["Break"]["Message"]));
+        }
         $event->setCancelled();
       }
     }
@@ -271,6 +279,9 @@ class Main extends PluginBase implements Listener {
       $event->setCancelled();
     } else {
       if(!$this->canEdit($p,$b)) {
+        if($c["Messages"]["Place"]["Enable"] === true) {
+          $p->sendMessage(str_replace('{block}', $b->getName(), $c["Messages"]["Place"]["Message"]));
+        }
         $event->setCancelled();
       }
     }
@@ -280,6 +291,9 @@ class Main extends PluginBase implements Listener {
     $b = $event->getBlock();
     $p = $event->getPlayer();
     if(!$this->canTouch($p,$b)) {
+      if($c["Messages"]["Touch"]["Enable"] === true) {
+        $p->sendMessage(str_replace('{block}', $b->getName(), $c["Messages"]["Touch"]["Message"]));
+      }
       $event->setCancelled();
     }
   }
@@ -289,7 +303,8 @@ class Main extends PluginBase implements Listener {
     foreach($this->areas as $area) {
       $areas[] = array("name" => $area->getName(),"flags" => $area->getFlags(),"pos1" => $area->getPos1(),"pos2" => $area->getPos2(),"level" => $area->getLevel(),"whitelist" => $area->getWhitelist());
     }
-    file_put_contents($this->getDataFolder() . "areas.json",json_encode($areas));
+     /* JSON_PRETTY_PRINT parameter added */
+    file_put_contents($this->getDataFolder() . "areas.json",json_encode($areas, JSON_PRETTY_PRINT));
   }
 
   public function canEdit($p,$t) {
