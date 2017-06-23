@@ -1,6 +1,6 @@
 name: iProtector
 authors: ["LDX", "kenygamer"]
-version: 4.0#3.1b
+version: v4.0#3.1b
 main: LDX\iProtector\Main
 load: POSTWORLD
 api: 3.0.0
