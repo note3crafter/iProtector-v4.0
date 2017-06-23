@@ -1,6 +1,15 @@
 # Config file for iProtector v4.0 by Kevin Andrews;
-# Forked from the original LDX-MCPE/iProtector repository, implementing messages support
-# and PocketMine-MP API 3.0.0 compatiblity
+# Forked from the original LDX-MCPE/iProtector repository, implementing new features
+# and PocketMine-MP API 3.0.0 compatibility
+
+# Settings
+Settings:
+
+ # Choose whether enable or disable this plugin
+ Enable: true
+ 
+ # Choose whether enable or disable the JSON pretty print area saving setting
+ JPP: true
 
 # Messages for protected areas:
 Messages:
