@@ -42,6 +42,9 @@ Default:
 
   # Keep players from editing the world?
   Edit: false
+  
+  # Protect against TNT and Creeper explosions?
+  TNT: false
 
   # Keep players from touching blocks and activating things like chests?
   Touch: false
@@ -56,6 +59,9 @@ Worlds:
 
     # Keep players from editing the world?
     Edit: false
+    
+    # Protect against TNT and Creeper explosions?
+    TNT: false
 
     # Keep players from touching blocks and activating things like chests?
     Touch: false
