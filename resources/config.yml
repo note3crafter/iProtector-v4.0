@@ -1,4 +1,6 @@
-# Config file for iProtector by LDX;
+# Config file for iProtector v4.0 by Kevin Andrews;
+# Forked from the original LDX-MCPE/iProtector repository, now implementing new features
+# and support for the PocketMine-MP API 3.0.0
 
 # Settings for unprotected areas in worlds without specific settings:
 Default:
