@@ -11,6 +11,7 @@ use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
 use pocketmine\utils\TextFormat;
 use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\event\entity\EntityExplodeEvent;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\block\BlockBreakEvent;
@@ -50,6 +51,7 @@ class Main extends PluginBase implements Listener {
     } else {
     $this->god = $c["Default"]["God"];
     $this->edit = $c["Default"]["Edit"];
+    $this->tnt = $c["Default"]["TNT"];
     $this->touch = $c["Default"]["Touch"];
     $this->levels = array();
     foreach($c["Worlds"] as $level => $flags) {
@@ -301,14 +303,33 @@ class Main extends PluginBase implements Listener {
       }
     }
   }
-
+  
   public function onBlockTouch(PlayerInteractEvent $event) {
     $b = $event->getBlock();
     $p = $event->getPlayer();
+    if($event->getAction() === PlayerInteractEvent::RIGHT_CLICK_BLOCK) {
+      if($event->getItem() === \pocketmine\item\Item::get(259, 0)) {
+       if($event->getBlock() === \pocketmine\block\Block::get(46, 0)) {
+        if(!$this->canExplode($p->getX(), $p->getY(), $p->getZ(), $p->getLevel())) {
+          $event->setCancelled();
+        }
+       }
+      }
+    }
     if(!$this->canTouch($p,$b)) {
       if($c["Messages"]["Touch"]["Enable"] === true) {
         $p->sendMessage(str_replace('{block}', $b->getName(), $c["Messages"]["Touch"]["Message"]));
       }
+      $event->setCancelled();
+    }
+  }
+  
+  /* Handles entity explode
+   * event (\pocketmine\event\entity\EntityExplodeEvent)
+   */
+  
+  public function onEntityExplode(EntityExplodeEvent $event) {
+    if(!$this->canExplode($event->getPosition()->getX(), $event->getPosition()->getY(), $event->getPosition()->getZ(), $event->getEntity()->getLevel())) {
       $event->setCancelled();
     }
   }
@@ -398,6 +419,33 @@ class Main extends PluginBase implements Listener {
         }
         if($area->getFlag("god")) {
           $o = false;
+        }
+      }
+    }
+    return $o;
+  }
+  
+  public function canExplode($x, $y, $z, $level) {
+    if($p->hasPermission("iprotector") || $p->hasPermission("iprotector.access")) {
+      return true;
+    }
+    $o = true;
+    $g = (isset($this->levels[$level->getName()]) ? $this->levels[$level->getName()]["TNT"] : $this->tnt);
+    if($g) {
+      $o = false;
+    }
+    foreach($this->areas as $area) {
+      if($area->contains(new Vector3($x,$y,$z,$level->getName())) {
+        if($area->getFlag("tnt")) {
+          $o = false;
+        }
+        if($area->isWhitelisted(strtolower($p->getName()))) {
+          $o = true;
+          break;
+        }
+        if(!$area->getFlag("tnt") && $g) {
+          $o = true;
+          break;
         }
       }
     }
