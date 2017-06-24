@@ -436,7 +436,7 @@ class Main extends PluginBase implements Listener {
       $o = false;
     }
     foreach($this->areas as $area) {
-      if($area->contains(new Vector3($x,$y,$z,$level->getName())) {
+      if($area->contains(new Vector3($x,$y,$z,$level->getName()))) {
         if($area->getFlag("tnt")) {
           $o = false;
         }
