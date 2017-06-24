@@ -275,7 +275,7 @@ class Main extends PluginBase implements Listener
                                     }
                                     break;
                                 case "list":
-                                    $o = self::PREFIX . TextFormat::AQUA . $area->getName() . "'s whitelist:";
+                                    $o = self::PREFIX . TextFormat::AQUA . $area->getName() . "'s whitelist:" . PHP_EOL;
                                     foreach ($area->getWhitelist() as $w) {
                                         $o .= " $w;";
                                     }
