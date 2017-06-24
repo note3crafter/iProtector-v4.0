@@ -11,6 +11,9 @@ This plugin will continue receiving updates and be open to *suggestions* from th
 - You can use a new flag! **TNT**. Protects against TNT and Creeper explosions.
 - You can set custom messages for **each** event, and also disable the ones you want; place; break; touch and hurt.
 
+So what are you waiting for?
+Check the **[installation tutorial](https://github.com/kenygamer/iProtector-v4.0/wiki)**.
+
 ## Command
 
 ```
