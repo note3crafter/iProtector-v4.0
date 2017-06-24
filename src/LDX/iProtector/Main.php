@@ -82,7 +82,7 @@ class Main extends PluginBase implements Listener {
             $o = self::PREFIX . TextFormat::RED . "You're already selecting a position!";
           } else {
             $this->sel1[$n] = true;
-            $o = self::PREFIX . TextFormat::RED . "Please place or break the first position.";
+            $o = self::PREFIX . TextFormat::AQUA . "Please place or break the first position.";
           }
         } else {
           $o = self::PREFIX . TextFormat::RED . "You do not have permission to use this subcommand.";
@@ -94,7 +94,7 @@ class Main extends PluginBase implements Listener {
             $o = self::PREFIX . TextFormat::RED . "You're already selecting a position!";
           } else {
             $this->sel2[$n] = true;
-            $o = self::PREFIX . TextFormat::RED . "Please place or break the second position.";
+            $o = self::PREFIX . TextFormat::AQUA . "Please place or break the second position.";
           }
         } else {
           $o = self::PREFIX . TextFormat::RED . "You do not have permission to use this subcommand.";
@@ -105,7 +105,7 @@ class Main extends PluginBase implements Listener {
           if(isset($args[1])) {
             if(isset($this->pos1[$n]) && isset($this->pos2[$n])) {
               if(!isset($this->areas[strtolower($args[1])])) {
-                $area = new Area(strtolower($args[1]),array("edit" => true,"god" => false,"tnt" => false,"touch" => true),array($this->pos1[$n]->getX(),$this->pos1[$n]->getY(),$this->pos1[$n]->getZ()),array($this->pos2[$n]->getX(),$this->pos2[$n]->getY(),$this->pos2[$n]->getZ()),$p->getLevel()->getName(),array($n),$this);
+                $area = new Area(strtolower($args[1]),array("edit" => true,"god" => false,"tnt" => true,"touch" => true),array($this->pos1[$n]->getX(),$this->pos1[$n]->getY(),$this->pos1[$n]->getZ()),array($this->pos2[$n]->getX(),$this->pos2[$n]->getY(),$this->pos2[$n]->getZ()),$p->getLevel()->getName(),array($n),$this);
                 $this->saveAreas();
                 unset($this->pos1[$n]);
                 unset($this->pos2[$n]);
