@@ -18,7 +18,7 @@ use pocketmine\event\block\BlockBreakEvent;
 
 class Main extends PluginBase implements Listener {
   
-  const PREFIX = TextFormat::GREEN . "[" . TextFormat::YELLOW . $this->getDescription()->getFullName() . ":kenygamer" . TextFormat::GREEN . "]" . TextFormat::RESET;
+  const PREFIX = TextFormat::GREEN . "[" . TextFormat::YELLOW . "iProtector v4.0#3.1b" . ":kenygamer" . TextFormat::GREEN . "]" . TextFormat::RESET;
   public $c;
 
   public function onEnable() {
