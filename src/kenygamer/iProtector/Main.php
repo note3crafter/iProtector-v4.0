@@ -34,7 +34,7 @@ use pocketmine\event\block\BlockBreakEvent;
 class Main extends PluginBase implements Listener
 {
     
-    const PREFIX = TextFormat::GREEN . "[" . TextFormat::YELLOW . "iProtector v4.0#3.1b" . ":kenygamer" . TextFormat::GREEN . "]" . TextFormat::RESET . " ";
+    const PREFIX = TextFormat::GREEN . "[" . "iProtector" . ":kenygamer" . "]" . TextFormat::RESET . " ";
     
     public function onEnable()
     {
@@ -163,15 +163,7 @@ class Main extends PluginBase implements Listener
                     foreach($this->areas as $area) {
                         if($area->contains(new Vector3($p->getX(), $p->getY(), $p->getZ()), $p->getLevel()->getName())) {
                             $contains = true;
-                            $o = self::PREFIX . TextFormat::AQUA . "You are standing on area " . TextFormat::GREEN . $area["name"] . TextFormat::AQUA . ".";
-                            $o = TextFormat::GRAY . "pos1:";
-                            $o = TextFormat::GOLD . "X: " . TextFormat::BLUE . $area["pos1"][0];
-                            $o = TextFormat::GOLD . "Y: " . TextFormat::BLUE . $area["pos1"][1];
-                            $o = TextFormat::GOLD . "Z: " . TextFormat::BLUE . $area["pos1"][2];
-                            $o = TextFormat::GRAY . "pos2:";
-                            $o = TextFormat::GOLD . "X: " . TextFormat::BLUE . $area["pos2"][0];
-                            $o = TextFormat::GOLD . "Y: " . TextFormat::BLUE . $area["pos2"][1];
-                            $o = TextFormat::GOLD . "Z: " . TextFormat::BLUE . $area["pos2"][2];
+                            $o = self::PREFIX . TextFormat::GREEN . "You are standing on area " . $area->getName() . "." . PHP_EOL . TextFormat::GRAY . "pos1:" . PHP_EOL . TextFormat::GOLD . "X: " . TextFormat::BLUE . $area->getPos1()[0] . PHP_EOL . TextFormat::GOLD . "Y: " . TextFormat::BLUE . $area->getPos1()[1] . PHP_EOL . TextFormat::GOLD . "Z: " . TextFormat::BLUE . $area->getPos1()[2] . PHP_EOL . TextFormat::GRAY . "pos2:" . PHP_EOL . TextFormat::GOLD . "X: " . TextFormat::BLUE . $area->getPos2()[0] . PHP_EOL . TextFormat::GOLD . "Y: " . TextFormat::BLUE . $area->getPos2()[1] . PHP_EOL . TextFormat::GOLD . "Z: " . TextFormat::BLUE . $area->getPos2()[2];
                         }
                     }
                     if($contains === false) {
