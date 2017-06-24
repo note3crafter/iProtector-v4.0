@@ -8,7 +8,7 @@ website: "https://github.com/kenygamer/iProtector"
 commands:
   area:
     description: "Allows you to manage areas."
-    usage: "/area <pos1/pos2/create/list/flag/whitelist/delete>"
+    usage: "/area <pos1/pos2/create/here/list/flag/whitelist/delete>"
     permission: iprotector.command.area
 permissions:
   iprotector:
