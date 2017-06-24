@@ -1,7 +1,7 @@
 name: iProtector
 authors: ["LDX", "kenygamer"]
 version: v4.0#3.1b
-main: LDX\iProtector\Main
+main: kenygamer\iProtector\Main
 load: POSTWORLD
 api: 3.0.0
 website: "https://github.com/kenygamer/iProtector"
