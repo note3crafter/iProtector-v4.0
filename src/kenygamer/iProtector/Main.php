@@ -159,15 +159,28 @@ class Main extends PluginBase implements Listener
                 break;
             case "here":
                 if ($p->hasPermission("iprotector") || $p->hasPermission("iprotector.command") || $p->hasPermission("iprotector.command.here") || $p->hasPermission("iprotector.command.area.here")) {
+                    $contains = false;
                     foreach($this->areas as $area) {
                         if($area->contains(new Vector3($p->getX(), $p->getY(), $p->getZ()), $p->getLevel()->getName())) {
+                            $contains = true;
                             $o = self::PREFIX . TextFormat::AQUA . "You are standing on area " . TextFormat::GREEN . $area["name"] . TextFormat::AQUA . ".";
                             $o = TextFormat::GRAY . "pos1:";
                             $o = TextFormat::GOLD . "X: " . TextFormat::BLUE . $area["pos1"][0];
                             $o = TextFormat::GOLD . "Y: " . TextFormat::BLUE . $area["pos1"][1];
                             $o = TextFormat::GOLD . "Z: " . TextFormat::BLUE . $area["pos1"][2];
-                        } else {
-                            $o = self::PREFIX . TextFormat::RED . "
+                            $o = TextFormat::GRAY . "pos2:";
+                            $o = TextFormat::GOLD . "X: " . TextFormat::BLUE . $area["pos2"][0];
+                            $o = TextFormat::GOLD . "Y: " . TextFormat::BLUE . $area["pos2"][1];
+                            $o = TextFormat::GOLD . "Z: " . TextFormat::BLUE . $area["pos2"][2];
+                        }
+                    }
+                    if($contains === false) {
+                        $o = self::PREFIX . TextFormat::RED . "You are not standing in any area.";
+                    }
+                } else {
+                    $o = self::PREFIX . TextFormat::RED . "You do not have permission to use this subcommand.";
+                }
+                break;
             case "list":
                 if ($p->hasPermission("iprotector") || $p->hasPermission("iprotector.command") || $p->hasPermission("iprotector.command.area") || $p->hasPermission("iprotector.command.area.list")) {
                     $o = self::PREFIX . TextFormat::AQUA . "Areas:";
