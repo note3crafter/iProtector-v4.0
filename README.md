@@ -1,4 +1,4 @@
-# iProtector v4.0.1
+# iProtector v4.0
 
 ## About
 **iProtector** is the original plugin that allows you to protect areas with different settings in each one. This *fork*, implementing support for the new *PocketMine-MP API 3.0.0*, provides new features to fully enjoy the artwork created by [*LDX-MCPE*](https://github.com/LDX-MCPE).
