@@ -310,7 +310,7 @@ class Main extends PluginBase implements Listener {
     if($event->getAction() === PlayerInteractEvent::RIGHT_CLICK_BLOCK) {
       if($event->getItem() === \pocketmine\item\Item::get(259, 0)) {
        if($event->getBlock() === \pocketmine\block\Block::get(46, 0)) {
-        if(!$this->canExplode($p->getX(), $p->getY(), $p->getZ(), $p->getLevel())) {
+        if(!$this->canExplode($p->getX(), $p->getY(), $p->getZ(), $p, $p->getLevel())) {
           $event->setCancelled();
           return;
         }
@@ -330,7 +330,7 @@ class Main extends PluginBase implements Listener {
    */
   
   public function onEntityExplode(EntityExplodeEvent $event) {
-    if(!$this->canExplode($event->getPosition()->getX(), $event->getPosition()->getY(), $event->getPosition()->getZ(), $event->getEntity()->getLevel())) {
+    if(!$this->canExplode($event->getPosition()->getX(), $event->getPosition()->getY(), $event->getPosition()->getZ(), $event->getEntity(), $event->getEntity()->getLevel())) {
       $event->setCancelled();
     }
   }
@@ -426,7 +426,7 @@ class Main extends PluginBase implements Listener {
     return $o;
   }
   
-  public function canExplode($x, $y, $z, $level) {
+  public function canExplode($x, $y, $z, $p, $level) {
     if($p->hasPermission("iprotector") || $p->hasPermission("iprotector.access")) {
       return true;
     }
@@ -444,7 +444,7 @@ class Main extends PluginBase implements Listener {
           $o = true;
           break;
         }
-        if(!$area->getFlag("tnt") && $g) {
+        if($area->getFlag("tnt") && $g) {
           $o = true;
           break;
         }
