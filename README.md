@@ -8,7 +8,7 @@ This plugin will continue receiving updates and be open to *suggestions* from th
 ## What's new
 - You can enable and disable the plugin from the *config*.
 - You can choose whether enable or disable the area pretty saving feature.
-- You can use a new flag! **TNT**. Protects against TNT and Creeper explosions?
+- You can use a new flag! **TNT**. Protects against TNT and Creeper explosions
 - You can use a new command! **/area here**. It allows you to see what area you are standing on.
 - You can set custom messages for **each** event, and also disable the ones you want; place; break; touch and hurt.
 
