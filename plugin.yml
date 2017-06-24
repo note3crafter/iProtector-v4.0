@@ -35,6 +35,9 @@ permissions:
               iprotector.command.area.create:
                 description: "Allows access to the iProtector create subcommand."
                 default: op
+              iprotector.command.area.here:
+                description: "Allows access to the iProtector here subcommand."
+                default: op
               iprotector.command.area.list:
                 description: "Allows access to the iProtector list subcommand."
                 default: op
