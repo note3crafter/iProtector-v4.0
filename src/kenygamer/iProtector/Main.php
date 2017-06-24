@@ -40,6 +40,25 @@ class Main extends PluginBase implements Listener
     {
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
         $this->getLogger()->info(TextFormat::GREEN . "Enabling " . $this->getDescription()->getFullName() . "...");
+        $this->getServer()->getLogger()->info(PHP_EOL . "        
+   ______            _             _                       _  _    ___  
+ (_)  __ \          | |           | |                     | || |  / _ \ 
+  _| |__) |_ __ ___ | |_  ___  ___| |_  ___  _ __  __   __| || |_| | | |
+ | |  ___/| '__/ _ \| __|/ _ \/ __| __|/ _ \| '__| \ \ / /|__   _| | | |
+ | | |    | | | (_) | |_|  __/ (__| |_| (_) | |     \ V /    | |_| |_| |
+ |_|_|    |_|  \___/ \__|\___|\___|\__|\___/|_|      \_/     |_(_)\___/ 
+                                                                                                                                           
+
+
+  _             _  __          _                            _                       
+ | |           | |/ /         (_)           /\             | |                      
+ | |__  _   _  | ' / _____   ___ _ __      /  \   _ __   __| |_ __ _____      _____ 
+ | '_ \| | | | |  < / _ \ \ / / | '_ \    / /\ \ | '_ \ / _` | '__/ _ \ \ /\ / / __|
+ | |_) | |_| | | . \  __/\ V /| | | | |  / ____ \| | | | (_| | | |  __/\ V  V /\__ \
+ |_.__/ \__, | |_|\_\___| \_/ |_|_| |_| /_/    \_\_| |_|\__,_|_|  \___| \_/\_/ |___/
+         __/ |                                                                      
+        |___/  ");
+        
         if (!is_dir($this->getDataFolder())) {
             mkdir($this->getDataFolder());
         }
