@@ -194,7 +194,7 @@ class Main extends PluginBase implements Listener
                 break;
             case "list":
                 if ($p->hasPermission("iprotector") || $p->hasPermission("iprotector.command") || $p->hasPermission("iprotector.command.area") || $p->hasPermission("iprotector.command.area.list")) {
-                    $o = self::PREFIX . TextFormat::AQUA . "Areas:";
+                    $o = self::PREFIX . TextFormat::AQUA . "Areas:" . TextFormat::GOLD;
                     foreach ($this->areas as $area) {
                         $o = $o . " " . $area->getName() . ";";
                     }
