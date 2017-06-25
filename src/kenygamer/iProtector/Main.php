@@ -33,7 +33,7 @@ use pocketmine\event\block\BlockBreakEvent;
 
 class Main extends PluginBase implements Listener
 {
-    
+    protected $c;
     const PREFIX = TextFormat::GREEN . "[" . "iProtector" . ":kenygamer" . "]" . TextFormat::RESET . " ";
     
     public function onEnable()
@@ -76,21 +76,21 @@ class Main extends PluginBase implements Listener
         foreach ($data as $datum) {
             $area = new Area($datum["name"], $datum["flags"], $datum["pos1"], $datum["pos2"], $datum["level"], $datum["whitelist"], $this);
         }
-        $c = yaml_parse(file_get_contents($this->getDataFolder() . "config.yml"));
-        if ($c["Settings"]["Enable"] === false) {
+        $this->c = yaml_parse(file_get_contents($this->getDataFolder() . "config.yml"));
+        if ($this->c["Settings"]["Enable"] === false) {
             $this->getPluginLoader()->disablePlugin($this);
             return true;
-        } elseif ($c["Settings"]["Enable"] !== true) {
+        } elseif ($this->c["Settings"]["Enable"] !== true) {
             $this->getPluginLoader()->disablePlugin($this);
             return true;
         } else {
             
-            $this->god    = $c["Default"]["God"];
-            $this->edit   = $c["Default"]["Edit"];
-            $this->tnt    = $c["Default"]["TNT"];
-            $this->touch  = $c["Default"]["Touch"];
+            $this->god    = $this->c["Default"]["God"];
+            $this->edit   = $this->c["Default"]["Edit"];
+            $this->tnt    = $this->c["Default"]["TNT"];
+            $this->touch  = $this->c["Default"]["Touch"];
             $this->levels = array();
-            foreach ($c["Worlds"] as $level => $flags) {
+            foreach ($this->c["Worlds"] as $level => $flags) {
                 $this->levels[$level] = $flags;
             }
             return true;
@@ -318,9 +318,9 @@ class Main extends PluginBase implements Listener
             $p = $event->getEntity();
             $x = false;
             if (!$this->canGetHurt($p)) {
-                $c = yaml_parse(file_get_contents($this->getDataFolder() . "config.yml"));
-                if ($c["Messages"]["Hurt"]["Enable"] === true) {
-                    $p->sendMessage(str_replace('{player}', $p->getName(), $c["Messages"]["Hurt"]["Message"]));
+                //$c = yaml_parse(file_get_contents($this->getDataFolder() . "config.yml"));
+                if ($this->c["Messages"]["Hurt"]["Enable"] === true) {
+                    $p->sendMessage(str_replace('{player}', $p->getName(), $this->c["Messages"]["Hurt"]["Message"]));
                 }
                 $event->setCancelled();
             }
@@ -344,9 +344,9 @@ class Main extends PluginBase implements Listener
             $event->setCancelled();
         } else {
             if (!$this->canEdit($p, $b)) {
-                $c = yaml_parse(file_get_contents($this->getDataFolder() . "config.yml"));
-                if ($c["Messages"]["Break"]["Enable"] === true) {
-                    $p->sendMessage(str_replace('{block}', $b->getName(), $c["Messages"]["Break"]["Message"]));
+                //$c = yaml_parse(file_get_contents($this->getDataFolder() . "config.yml"));
+                if ($this->c["Messages"]["Break"]["Enable"] === true) {
+                    $p->sendMessage(str_replace('{block}', $b->getName(), $this->c["Messages"]["Break"]["Message"]));
                 }
                 $event->setCancelled();
             }
@@ -371,7 +371,7 @@ class Main extends PluginBase implements Listener
         } else {
             if (!$this->canEdit($p, $b)) {
                 $c = yaml_parse(file_get_contents($this->getDataFolder() . "config.yml"));
-                if ($c["Messages"]["Place"]["Enable"] === true) {
+                if ($this->c["Messages"]["Place"]["Enable"] === true) {
                     $p->sendMessage(str_replace('{block}', $b->getName(), $c["Messages"]["Place"]["Message"]));
                 }
                 $event->setCancelled();
@@ -384,9 +384,9 @@ class Main extends PluginBase implements Listener
         $b = $event->getBlock();
         $p = $event->getPlayer();
         if (!$this->canTouch($p, $b)) {
-            $c = yaml_parse(file_get_contents($this->getDataFolder() . "config.yml"));
-            if ($c["Messages"]["Touch"]["Enable"] === true) {
-                $p->sendMessage(str_replace('{block}', $b->getName(), $c["Messages"]["Touch"]["Message"]));
+            //$c = yaml_parse(file_get_contents($this->getDataFolder() . "config.yml"));
+            if ($this->c["Messages"]["Touch"]["Enable"] === true) {
+                $p->sendMessage(str_replace('{block}', $b->getName(), $this->c["Messages"]["Touch"]["Message"]));
             }
             $event->setCancelled();
         }
@@ -416,11 +416,11 @@ class Main extends PluginBase implements Listener
                 "whitelist" => $area->getWhitelist()
             );
         }
-        $c = yaml_parse(file_get_contents($this->getDataFolder() . "config.yml"));
-        if ($c["Settings"]["JPP"] === true) {
+        //$c = yaml_parse(file_get_contents($this->getDataFolder() . "config.yml"));
+        if ($this->c["Settings"]["JPP"] === true) {
             file_put_contents($this->getDataFolder() . "areas.json", json_encode($areas, JSON_PRETTY_PRINT));
             return;
-        } elseif ($c["Settings"]["JPP"] === false) {
+        } elseif ($this->c["Settings"]["JPP"] === false) {
             file_put_contents($this->getDataFolder() . "areas.json", json_encode($areas));
             return;
         } else {
