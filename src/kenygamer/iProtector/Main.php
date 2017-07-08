@@ -2,7 +2,7 @@
 
 /*
  * iProtector-v4.0 plugin for PocketMine-MP
- * Copyright (C) 2017 Kevin Andrews <https://github.com/kenygamer/iProtector-v4.0>
+ * Copyright (C) 2014 LDX-MCPE <https://github.com/LDX-MCPE/iProtector>
  *
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
