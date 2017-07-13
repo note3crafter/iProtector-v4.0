@@ -21,13 +21,19 @@ use pocketmine\math\Vector3;
 
 class Area
 {
-    
+    /** @var string */
     private $name;
+    /** @var array */
     public $flags;
+    /** @var Vector3 */
     private $pos1;
+    /** @var Vector3 */
     private $pos2;
+    /** @var Level */
     private $level;
+    /** @var array */
     private $whitelist;
+    /** @var Plugin */
     private $plugin;
     
     public function __construct($name, $flags, $pos1, $pos2, $level, $whitelist, $plugin)
@@ -42,11 +48,29 @@ class Area
         $this->save();
     }
     
+    /**
+     * getName()
+     *
+     * @api
+     *
+     * Returns area name
+     *
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
     
+    /**
+     * getPos1()
+     *
+     * @api
+     *
+     * Returns area position 1
+     *
+     * @return array
+     */
     public function getPos1()
     {
         return array(
@@ -56,6 +80,15 @@ class Area
         );
     }
     
+    /**
+     * getPos2()
+     *
+     * @api
+     *
+     * Returns area position 2
+     *
+     * @return srray
+     */
     public function getPos2()
     {
         return array(
@@ -65,11 +98,31 @@ class Area
         );
     }
     
+    /**
+     * getFlags()
+     *
+     * @api
+     *
+     * Return area flags
+     *
+     * @return array
+     */
     public function getFlags()
     {
         return $this->flags;
     }
     
+    /**
+     * getFlag()
+     *
+     * @api
+     *
+     * Checks if area flag is set
+     *
+     * @param string $flag
+     *
+     * @return bool
+     */
     public function getFlag($flag)
     {
         if (isset($this->flags[$flag])) {
@@ -78,6 +131,18 @@ class Area
         return false;
     }
     
+    /**
+     * setFlag()
+     *
+     * @api
+     *
+     * Sets area flag value
+     *
+     * @param string $flag
+     * @param bool $value
+     *
+     * @return bool
+     */
     public function setFlag($flag, $value)
     {
         if (isset($this->flags[$flag])) {
@@ -88,6 +153,18 @@ class Area
         return false;
     }
     
+    /**
+     * contains()
+     *
+     * @api
+     *
+     * Checks if given position is inside area
+     *
+     * @param pocketmine\level\Position $pos
+     * @param pocketmine\level\Level $level
+     *
+     * @return bool
+     */
     public function contains($pos, $level)
     {
         if ((min($this->pos1->getX(), $this->pos2->getX()) <= $pos->getX()) && (max($this->pos1->getX(), $this->pos2->getX()) >= $pos->getX()) && (min($this->pos1->getY(), $this->pos2->getY()) <= $pos->getY()) && (max($this->pos1->getY(), $this->pos2->getY()) >= $pos->getY()) && (min($this->pos1->getZ(), $this->pos2->getZ()) <= $pos->getZ()) && (max($this->pos1->getZ(), $this->pos2->getZ()) >= $pos->getZ()) && ($this->level == $level)) {
@@ -96,6 +173,17 @@ class Area
         return false;
     }
     
+    /*
+     * toggleFlag()
+     *
+     * @api
+     *
+     * Modifies area flag value
+     *
+     * @param string $flag
+     *
+     * @return bool
+     */
     public function toggleFlag($flag)
     {
         if (isset($this->flags[$flag])) {
@@ -106,11 +194,23 @@ class Area
         return false;
     }
     
+    /* Pending getLevel() documentation */
     public function getLevel()
     {
         return $this->level;
     }
     
+    /**
+     * isWhitelisted()
+     *
+     * @api
+     *
+     * Checks if player is inside area whitelist
+     *
+     * @param string $n Player name
+     *
+     * @return bool
+     */
     public function isWhitelisted($n)
     {
         if (in_array($n, $this->whitelist)) {
@@ -119,6 +219,18 @@ class Area
         return false;
     }
     
+    /**
+     * setWhitelisted()
+     *
+     * @api
+     *
+     * Adds a player into area whitelist
+     *
+     * @param string $n Player name
+     * @param bool $v Add or remove from whitelist
+     *
+     * @return bool
+     */
     public function setWhitelisted($n, $v = true)
     {
         if ($v) {
@@ -138,17 +250,44 @@ class Area
         return false;
     }
     
+    /**
+     * getWhitelist()
+     *
+     * @api
+     *
+     * Returns area whitelist
+     *
+     * @return array
+     */
     public function getWhitelist()
     {
         return $this->whitelist;
     }
     
+    /**
+     * save()
+     *
+     * @api
+     *
+     * Saves an area
+     *
+     * @return bool
+     */
     public function save()
     {
         $this->plugin->areas[$this->name] = $this;
         return true;
     }
     
+    /**
+     * delete()
+     *
+     * @api
+     *
+     * Deletes an area
+     *
+     * @return bool
+     */
     public function delete()
     {
         unset($this->plugin->areas[$this->getName()]);
