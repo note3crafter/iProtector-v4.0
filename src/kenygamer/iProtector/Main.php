@@ -33,9 +33,18 @@ use pocketmine\event\block\BlockBreakEvent;
 
 class Main extends PluginBase implements Listener
 {
+    /** @var array */
     protected $c;
+    /** Command prefix */
     const PREFIX = TextFormat::GREEN . "[" . "iProtector" . ":kenygamer" . "]" . TextFormat::RESET . " ";
     
+    /**
+     * onEnable()
+     *
+     * Plugin enable
+     *
+     * @return void
+     */
     public function onEnable()
     {
         $this->getServer()->getPluginManager()->registerEvents($this, $this);
@@ -97,11 +106,30 @@ class Main extends PluginBase implements Listener
         }
     }
     
+    /**
+     * onDisable()
+     *
+     * Plugin disable
+     *
+     * @return void
+     */
     public function onDisable()
     {
         $this->getLogger()->info(TextFormat::RED . "Disabling " . $this->getDescription()->getFullName() . "...");
     }
     
+    /**
+     * onCommand()
+     *
+     * Plugin commands
+     *
+     * @param CommandSender $p
+     * @param Commmand $cmd
+     * @param string $label
+     * @param array $args
+     *
+     * @return bool
+     */
     public function onCommand(CommandSender $p, Command $cmd, $label, array $args)
     {
         if (!($p instanceof Player)) {
@@ -312,6 +340,15 @@ class Main extends PluginBase implements Listener
         return true;
     }
     
+    /**
+     * onHurt()
+     *
+     * EntityDamageEvent
+     *
+     * @param EntityDamageEvent $event
+     *
+     * @return void
+     */
     public function onHurt(EntityDamageEvent $event)
     {
         if ($event->getEntity() instanceof Player) {
@@ -327,6 +364,15 @@ class Main extends PluginBase implements Listener
         }
     }
     
+    /**
+     * onBlockBreak()
+     *
+     * BlockBreakEvent
+     *
+     * @param BlockBreakEvent $event
+     *
+     * @return void
+     */
     public function onBlockBreak(BlockBreakEvent $event)
     {
         $b = $event->getBlock();
@@ -353,6 +399,15 @@ class Main extends PluginBase implements Listener
         }
     }
     
+    /**
+     * onBlockPlace()
+     *
+     * BlockPlaceEvent
+     *
+     * @param BlockPlaceEvent $event
+     *
+     * @return void
+     */
     public function onBlockPlace(BlockPlaceEvent $event)
     {
         $b = $event->getBlock();
@@ -379,6 +434,15 @@ class Main extends PluginBase implements Listener
         }
     }
     
+    /**
+     * onBlockTouch()
+     *
+     * PlayerInteractEvent
+     *
+     * @param PlayerInteractEvent $event
+     *
+     * @return void
+     */
     public function onBlockTouch(PlayerInteractEvent $event)
     {
         $b = $event->getBlock();
@@ -392,17 +456,33 @@ class Main extends PluginBase implements Listener
         }
     }
     
-    /* Handles entity explode
-     * event (\pocketmine\event\entity\EntityExplodeEvent)
-     */
+    /* Handles TNT flag */
     
+    /**
+     * OnEntityExplode()
+     *
+     * EntityExplodeEvent
+     *
+     * @param EntityExplodeEvent $event
+     *
+     * @return void
+     */
     public function onEntityExplode(EntityExplodeEvent $event)
     {
-        if (!$this->canExplode($event->getPosition()->getX(), $event->getPosition()->getY(), $event->getPosition()->getZ(), $event->getEntity(), $event->getEntity()->getLevel())) {
+        if (!$this->canExplode($event->getPosition(), $event->getEntity()->getLevel())) {
             $event->setCancelled();
         }
     }
     
+    /**
+     * saveAreas()
+     *
+     * @api
+     *
+     * Saves plugin areas and any changes made previously
+     *
+     * @return void
+     */
     public function saveAreas()
     {
         $areas = array();
@@ -419,16 +499,25 @@ class Main extends PluginBase implements Listener
         //$c = yaml_parse(file_get_contents($this->getDataFolder() . "config.yml"));
         if ($this->c["Settings"]["JPP"] === true) {
             file_put_contents($this->getDataFolder() . "areas.json", json_encode($areas, JSON_PRETTY_PRINT));
-            return;
-        } elseif ($this->c["Settings"]["JPP"] === false) {
+        } elseif($this->c["Settings"]["JPP"] === false) {
             file_put_contents($this->getDataFolder() . "areas.json", json_encode($areas));
-            return;
         } else {
             file_put_contents($this->getDataFolder() . "areas.json", json_encode($areas));
-            return;
         }
     }
     
+    /**
+     * canEdit()
+     *
+     * @api
+     *
+     * Checks if player can edit the given position
+     *
+     * @param Player $p
+     * @param Block $t
+     *
+     * @return bool
+     */
     public function canEdit($p, $t)
     {
         if ($p->hasPermission("iprotector") || $p->hasPermission("iprotector.access")) {
@@ -457,6 +546,18 @@ class Main extends PluginBase implements Listener
         return $o;
     }
     
+    /**
+     * canTouch()
+     *
+     * @api
+     *
+     * Checks if player can touch the given position
+     *
+     * @param Player $p
+     * @param Block $t
+     *
+     * @return bool
+     */
     public function canTouch($p, $t)
     {
         if ($p->hasPermission("iprotector") || $p->hasPermission("iprotector.access")) {
@@ -485,6 +586,17 @@ class Main extends PluginBase implements Listener
         return $o;
     }
     
+    /**
+     * canGetHurt()
+     *
+     * @api
+     *
+     * Checks if player can get hurt on given position
+     *
+     * @param Player $p
+     *
+     * @return bool
+     */
     public function canGetHurt($p)
     {
         $o = true;
@@ -506,7 +618,19 @@ class Main extends PluginBase implements Listener
         return $o;
     }
     
-    public function canExplode($x, $y, $z, $p, $level)
+    /**
+     * canExplode()
+     *
+     * @api
+     *
+     * Checks if entity can explode on given position
+     *
+     * @param pocketmine\level\Position $pos
+     * @param pocketmine\level\Level $level
+     *
+     * @return bool
+     */
+    public function canExplode($pos, $level)
     {
         $o = true;
         $g = (isset($this->levels[$level->getName()]) ? $this->levels[$level->getName()]["TNT"] : $this->tnt);
@@ -514,7 +638,7 @@ class Main extends PluginBase implements Listener
             $o = false;
         }
         foreach ($this->areas as $area) {
-            if ($area->contains(new Vector3($x, $y, $z), $level->getName())) {
+            if ($area->contains(new Vector3($pos->getX(), $pos->getY(), $pos->getZ()), $level->getName())) {
                 if ($area->getFlag("tnt")) {
                     $o = false;
                     break;
