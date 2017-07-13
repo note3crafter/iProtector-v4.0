@@ -173,7 +173,7 @@ class Area
         return false;
     }
     
-    /*
+    /**
      * toggleFlag()
      *
      * @api
