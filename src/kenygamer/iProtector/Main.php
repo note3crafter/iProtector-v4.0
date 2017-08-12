@@ -18,7 +18,8 @@
 namespace kenygamer\iProtector;
 
 use pocketmine\math\Vector3;
-use pocketmine\command\{Command, CommandSender, CommandExecutor};
+use pocketmine\command\Command;
+use pocketmine\command\CommandSender;
 use pocketmine\event\Listener;
 use pocketmine\Player;
 use pocketmine\plugin\PluginBase;
@@ -129,7 +130,7 @@ class Main extends PluginBase implements Listener
      * @return bool
      */
     public function onCommand(CommandSender $sender, string $commandLabel, array $args)
-        if (!($p instanceof Player)) {
+        if (!($sender instanceof Player)) {
             $p->sendMessage(self::PREFIX . TextFormat::RED . "Command must be used in-game.");
             return true;
         }
