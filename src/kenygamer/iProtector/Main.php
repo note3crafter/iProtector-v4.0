@@ -129,9 +129,9 @@ class Main extends PluginBase implements Listener
      *
      * @return bool
      */
-    public function onCommand(CommandSender $sender, string $commandLabel, array $args)
+    public function onCommand(CommandSender $sender, $commandLabel, array $args)
         if (!($sender instanceof Player)) {
-            $p->sendMessage(self::PREFIX . TextFormat::RED . "Command must be used in-game.");
+            $p->sendMessage(self::PREFIX . TextFormat::RED . "Command must be used in-game, not on console.");
             return true;
         }
         if (!isset($args[0])) {
